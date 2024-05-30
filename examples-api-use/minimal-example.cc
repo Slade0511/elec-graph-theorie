@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <vector>
 #include <utility>
+#include "createMatrixPrint"
 
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Canvas;
@@ -33,6 +34,17 @@ void CreateMatrixFromCoordinates(const std::vector<std::pair<int, int>>& coordin
       matrix[y][x] = 1;
     }
   }
+}
+
+int MaxOnesInRow(const std::vector<std::vector<int>>& matrix) {
+  int max_ones = 0;
+
+  for (const auto& row : matrix) {
+    int count = std::count(row.begin(), row.end(), 1);  // Count the number of 1s in the current row
+    max_ones = std::max(max_ones, count);  // Update the maximum count if current count is higher
+  }
+
+  return max_ones;
 }
 
 static void DrawOnCanvas(Canvas *canvas, const int matrix[32][32]) {
@@ -70,7 +82,7 @@ int main(int argc, char *argv[]) {
   int matrix32x32[32][32];
 
   // Create the 32x32 matrix from the list of coordinates
-  CreateMatrixFromCoordinates(coordinates, matrix32x32);
+  CreateMatrixFromCoordinates(coordinates, result);
 
   // Draw the 32x32 matrix on the canvas
   DrawOnCanvas(canvas, matrix32x32);
