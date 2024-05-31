@@ -94,7 +94,7 @@ void print_lists(List **lists) {
     }
 }
 
-int main() {
+/*int main() {
     int matrix[TAILLE][TAILLE] = {
         {0, 1, 1, 0, 0},
         {1, 0, 1, 1, 0},
@@ -113,4 +113,4 @@ int main() {
     free(result);
 
     return 0;
-}
+}*/
