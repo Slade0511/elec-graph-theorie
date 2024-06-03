@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "decode_matrix.h"
+
 
 // Structure pour représenter un point
 typedef struct {
@@ -27,7 +29,7 @@ PointList create_point_list(int taille);
 int arrondit_inferieur(float nombre);
 
 // Fonction pour créer une liste de points à partir d'une liste d'entiers
-PointList* process_list(int liste[][2], int taille);
+PointList* process_list(List** liste, int taille);
 
 // Fonction pour libérer la mémoire d'une liste de points
 void free_point_list(PointList *point_list, int taille);

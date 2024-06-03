@@ -1,25 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "calculPoint.h"
 
 // Dimensions de la matrice
 #define TAILLE 5
 #define DIM 32
 
 // Structure pour représenter un point
-typedef struct {
-    int longueur;
-    int hauteur;
-} Point;
 
-// Structure pour représenter une liste de points
-typedef struct {
-    Point *points;
-    int taille;
-} PointList;
 
 // Fonction pour créer un point
-Point create_point(int longueur, int hauteur) {
+/*Point create_point(int longueur, int hauteur) {
     Point point;
     point.longueur = longueur;
     point.hauteur = hauteur;
@@ -39,30 +31,6 @@ int arrondit_inferieur(float nombre) {
     return (int)floor(nombre);
 }
 
-// Fonction pour créer une liste de points à partir d'une liste d'entiers
-PointList* process_list(int liste[][TAILLE], int taille) {
-    PointList *point_list = (PointList*)malloc(taille * sizeof(PointList));
-
-    int block_height = DIM / taille;
-
-    for (int i = 0; i < taille; i++) {
-        int elements = 0;
-        for (int k = 0; k < TAILLE; k++) {
-            if (liste[i][k] != 0) elements++;
-        }
-        point_list[i] = create_point_list(elements);
-        int block_width = DIM / elements;
-
-        for (int j = 0; j < elements; j++) {
-            int longueur = block_width * j + block_width / 2;
-            int hauteur = block_height * (taille - i - 1) + block_height / 2;  // Ajustement de la hauteur pour l'origine en bas à gauche
-            point_list[i].points[j] = create_point(longueur, hauteur);
-        }
-    }
-
-    return point_list;
-}
-
 // Fonction pour libérer la mémoire d'une liste de points
 void free_point_list(PointList *point_list, int taille) {
     for (int i = 0; i < taille; i++) {
@@ -80,7 +48,7 @@ void print_point_list(PointList *point_list, int taille) {
         }
         printf("\n");
     }
-}
+}*/
 
 // Fonction pour trouver les paires de numéros qui se croisent sans doublons
 int** find_crossing_pairs(int matrix[][TAILLE], int taille, int* num_pairs) {
@@ -133,7 +101,7 @@ int find_index(int* list, int size, int number) {
 }
 
 // Fonction pour convertir les paires de numéros en paires de points
-Point** convert_pairs_to_points(int** pairs, int num_pairs, PointList* point_list, int listNumero[][TAILLE], int* num_points_pairs) {
+Point** convert_pairs_to_points(int** pairs, int num_pairs, PointList* point_list, List** listNumero, int* num_points_pairs) {
     Point** points_pairs = (Point**)malloc(num_pairs * sizeof(Point*));
     *num_points_pairs = 0;
 
@@ -144,16 +112,18 @@ Point** convert_pairs_to_points(int** pairs, int num_pairs, PointList* point_lis
         int found_p1 = 0, found_p2 = 0;
 
         for (int j = 0; j < TAILLE && !(found_p1 && found_p2); j++) {
-            int index1 = find_index(listNumero[j], TAILLE, num1);
-            if (index1 != -1) {
-                p1 = point_list[j].points[index1];
-                found_p1 = 1;
-            }
+            if (listNumero[j] != NULL) {
+                int index1 = find_index(listNumero[j]->data, listNumero[j]->size, num1);
+                if (index1 != -1) {
+                    p1 = point_list[j].points[index1];
+                    found_p1 = 1;
+                }
 
-            int index2 = find_index(listNumero[j], TAILLE, num2);
-            if (index2 != -1) {
-                p2 = point_list[j].points[index2];
-                found_p2 = 1;
+                int index2 = find_index(listNumero[j]->data, listNumero[j]->size, num2);
+                if (index2 != -1) {
+                    p2 = point_list[j].points[index2];
+                    found_p2 = 1;
+                }
             }
         }
 
@@ -167,6 +137,7 @@ Point** convert_pairs_to_points(int** pairs, int num_pairs, PointList* point_lis
 
     return points_pairs;
 }
+
 
 // Fonction pour afficher les paires de points
 void print_points_pairs(Point** points_pairs, int num_points_pairs) {

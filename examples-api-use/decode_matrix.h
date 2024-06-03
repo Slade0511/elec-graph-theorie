@@ -30,6 +30,6 @@ void free_list(List *list);
 List** process_matrix(int matrix[TAILLE][TAILLE]);
 
 // Fonction pour imprimer les listes
-void print_lists(List **lists);
+void print_lists(List **lists, int taille);
 
 #endif // DECODE_MATRIX_H
