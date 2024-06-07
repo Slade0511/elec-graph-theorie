@@ -2,6 +2,7 @@
 #include "createLine.h"
 #include "decode_matrix.h"
 #include "calculPoint.h"
+#include "led_matrix_runner.h"
 
 #define TAILLE 5
 #define DIM 32
@@ -73,6 +74,8 @@ int main() {
     printf("Matrice résultante 32x32 :\n");
     print_matrix(result_matrix);
     printf("\n");
+
+    RunMatrix(matrix);
 
     free_point_list(point_list, 3);
 
