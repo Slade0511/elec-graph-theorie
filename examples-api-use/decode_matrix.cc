@@ -90,7 +90,7 @@ List** process_matrix(int matrix[TAILLE][TAILLE]) {
         for (int nb = 0; nb < current_list->size; nb++) {
             int element = current_list->data[nb];
             for (int j = 0; j < TAILLE; j++) {
-                if (matrix[element - 1][j] == 1 && !contains(Element, j + 1)) {
+                if (matrix[element - 1][j] == 1 && !contains(Element, j + 1) && !contains(new_list, j + 1)) {
                     add_to_list(new_list, j + 1);
                     add_to_list(Element, j + 1); // Ajouter l'élément à la liste Element
                     taille++;
@@ -122,7 +122,6 @@ void print_lists(List **lists, int taille) {
     }
 }
 
-
 /*int main() {
     int matrix[TAILLE][TAILLE] = {
         {0, 1, 1, 0, 0},
@@ -134,19 +133,19 @@ void print_lists(List **lists, int taille) {
 
     List **result = process_matrix(matrix);
 
-        // Obtenez la taille de la liste result
-        int taille = 0;
-        while (result[taille] != NULL) {
-            taille++;
-        }
+    // Obtenez la taille de la liste result
+    int taille = 0;
+    while (result[taille] != NULL) {
+        taille++;
+    }
 
-        print_lists(result, taille);
+    print_lists(result, taille);
 
     // Free the allocated memory
     for (int i = 0; i < TAILLE; i++) {
         if (result[i] != NULL) {
             free_list(result[i]);
-            }
+        }
     }
     free(result);
 

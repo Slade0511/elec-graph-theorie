@@ -34,6 +34,9 @@ PointList* process_list(List** liste, int taille);
 // Fonction pour libérer la mémoire d'une liste de points
 void free_point_list(PointList *point_list, int taille);
 
+int find_index(const std::vector<int>& list, int number);
+
+
 // Fonction pour afficher une liste de points
 void print_point_list(PointList *point_list, int taille);
 
