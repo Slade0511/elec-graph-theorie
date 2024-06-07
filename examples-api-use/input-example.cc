@@ -235,24 +235,22 @@ int main(int argc, char *argv[]) {
     signal(SIGINT, InterruptHandler);
 
     std::vector<std::vector<int>> matrix = {
-        {0, 1, 1, 0, 0},
-        {1, 0, 1, 1, 0},
-        {1, 1, 0, 0, 1},
-        {0, 1, 0, 0, 1},
-        {0, 0, 1, 1, 0}
+        {0, 1, 0, 1, 0},
+        {1, 0, 0, 0, 1},
+        {0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0},
+        {0, 1, 1, 0, 0}
     };
 
     std::vector<std::vector<int>> listName = {
-        {1},
-        {2, 3},
-        {4, 5}
+        {1,2,3},
+        {4, 5},
     };
 
     // Liste des points avec les noms correspondants
     std::vector<std::vector<Point>> ListPoint = {
-        {{16, 27}, {8, 17}},
+        {{5, 27}, {15, 27}, {25, 27}},
         { {8, 17}, {24, 17} },
-        { {8, 7}, {24, 7} }
     };
 
     // Trouver les points connectés
