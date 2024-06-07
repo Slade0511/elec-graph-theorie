@@ -12,7 +12,7 @@
 #include <signal.h>
 #include <vector>
 #include <utility>
-#include "createMatrixPrint"
+#include "printMatrix.c"
 
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Canvas;
