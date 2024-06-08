@@ -4,16 +4,9 @@
 #include <stdio.h>
 #include <signal.h>
 #include <vector>
-#include <iostream>
-#include <algorithm>
-#include <queue>
-#include <set>
 
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Canvas;
-
-using namespace std;
-
 
 #define TAILLE 5
 
@@ -124,8 +117,8 @@ void free_list(List *list) {
     }
 }
 
-
-List** process_matrix(const std::array<std::array<int, TAILLE>, TAILLE>& matrix) {
+// Fonction qui implémente l'algorithme
+List** process_matrix(int matrix[TAILLE][TAILLE]) {
     int index = 1;
     int taille = 1;
     List **list = (List**)malloc(TAILLE * sizeof(List*));
@@ -171,48 +164,18 @@ List** process_matrix(const std::array<std::array<int, TAILLE>, TAILLE>& matrix)
     return list;
 }
 
-std::vector<std::vector<int>> convertToListOfVectors(List **lists, int taille) {
-    std::vector<std::vector<int>> result;
-    for (int i = 0; i < taille; ++i) {
-        List *currentList = lists[i];
-        if (currentList == nullptr) {
-            continue; // Ignore les listes nulles
-        }
-        std::vector<int> currentVector;
-        for (int j = 0; j < currentList->size; ++j) {
-            currentVector.push_back(currentList->data[j]);
-        }
-        result.push_back(currentVector);
-    }
-    return result;
-}
-
-std::array<std::array<int, 5>, 5> convertTo2DArray(const std::vector<std::vector<int>>& vec) {
-    std::array<std::array<int, 5>, 5> result;
-    for (size_t i = 0; i < vec.size(); ++i) {
-        for (size_t j = 0; j < vec[i].size(); ++j) {
-            result[i][j] = vec[i][j];
-        }
-    }
-    return result;
-}
-
-void display_matrix(const std::vector<std::vector<int>>& matrix) {
-    for (const auto& row : matrix) {
-        for (int element : row) {
-            std::cout << element << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
 // Fonction pour imprimer les listes
-void print_lists(const std::vector<std::vector<int>>& lists) {
-    for (const auto& row : lists) {
-        for (int element : row) {
-            std::cout << element << " ";
+void print_lists(List **lists, int taille) {
+    for (int i = 0; i < taille; i++) {
+        if (lists[i] == NULL) {
+            fprintf(stderr, "Liste %d est NULL\n", i);
+            continue;
         }
-        std::cout << std::endl;
+        printf("List %d: ", i);
+        for (int j = 0; j < lists[i]->size; j++) {
+            printf("%d ", lists[i]->data[j]);
+        }
+        printf("\n");
     }
 }
 
@@ -220,53 +183,6 @@ volatile bool interrupt_received = false;
 static void InterruptHandler(int signo) {
   interrupt_received = true;
 }
-
-
-
-std::vector<std::vector<Point>> process_list(const std::vector<std::vector<int>>& list) {
-    std::vector<std::vector<Point>> listPoint(list.size());
-
-    int total_width = 32;
-    int total_height = 32;
-
-    for (size_t i = 0; i < list.size(); ++i) {
-        listPoint[i].resize(list[i].size());
-
-        int height_of_list = total_height / list.size();
-        int width_of_element = total_width / list[i].size();
-
-        for (size_t j = 0; j < list[i].size(); ++j) {
-            int x = (list[i].size() == 1) ? 16 : width_of_element * (j + 1);
-            int y = (list.size() == 1) ? 16 : height_of_list * (i + 1);
-
-            if (list[i].size() > 1) {
-                if (j == 0) {
-                    x = (width_of_element * j + width_of_element * (j + 1)) / 2;
-                } else if (j == list[i].size() - 1) {
-                    x = (width_of_element * (j - 1) + width_of_element * j) / 2;
-                } else {
-                    x = (width_of_element * (j - 1) + width_of_element * j + width_of_element * (j + 1)) / 3;
-                }
-            }
-
-            if (list.size() > 1) {
-                if (i == 0) {
-                    y = (height_of_list * i + height_of_list * (i + 1)) / 2;
-                } else if (i == list.size() - 1) {
-                    y = (height_of_list * (i - 1) + height_of_list * i) / 2;
-                } else {
-                    y = (height_of_list * (i - 1) + height_of_list * i + height_of_list * (i + 1)) / 3;
-                }
-            }
-
-            listPoint[i][j].x = x;
-            listPoint[i][j].y = y;
-        }
-    }
-
-    return listPoint;
-}
-
 
 // Fonction pour dessiner une ligne entre deux points
 void DrawLine(Canvas *canvas, const Point& p1, const Point& p2, uint8_t r, uint8_t g, uint8_t b) {
@@ -331,38 +247,14 @@ int main(int argc, char *argv[]) {
         {4, 5},
     };
 
-    /*std::vector<std::vector<int>> listName = convertToListOfVectors(process_matrix(convertTo2DArray(matrix)), 5);
-
-     for (size_t i = 0; i < listName.size(); ++i) {
-            std::cout << "List " << i << ": ";
-            for (int element : listName[i]) {
-                std::cout << element << " ";
-            }
-            std::cout << "(Nombre d'éléments: " << listName[i].size() << ")" << std::endl;
-        }
-
-     std::vector<std::vector<Point>> listPoint = process_list(listName);
-
-     for (size_t i = 0; i < listPoint.size(); ++i) {
-             for (size_t j = 0; j < listPoint[i].size(); ++j) {
-                 std::cout << "Point[" << i << "][" << j << "]: (" << listPoint[i][j].x << ", " << listPoint[i][j].y << ")" << std::endl;
-             }
-         }*/
     // Liste des points avec les noms correspondants
-    std::vector<std::vector<Point>> listPoint = {
+    std::vector<std::vector<Point>> ListPoint = {
         {{5, 27}, {15, 27}, {25, 27}},
         { {8, 17}, {24, 17} },
     };
 
     // Trouver les points connectés
-    std::vector<std::vector<Point>> filledList = fill_list(matrix, listName, listPoint);
-
-    /*for (size_t i = 0; i < filledList.size(); ++i) {
-                 for (size_t j = 0; j < filledList[i].size(); ++j) {
-                     std::cout << "Point[" << i << "][" << j << "]: (" << filledList[i][j].x << ", " << filledList[i][j].y << ")" << std::endl;
-                 }
-             }*/
-
+    std::vector<std::vector<Point>> filledList = fill_list(matrix, listName, ListPoint);
 
     // Définition de la liste de points
 
