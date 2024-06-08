@@ -28,10 +28,10 @@ static void DrawOnCanvas(Canvas *canvas, const std::vector<std::vector<int>>& ma
       // Check if the corresponding value in the matrix is '1' or '0'
       if (matrix[y][x] == 1) {
         // If '1', set the LED at position (x, y) to blue_color
-        canvas->SetPixel(x, y, blue_color.red(), blue_color.green(), blue_color.blue());
+        canvas->SetPixel(x, y, 0, 0, 255);
       } else {
         // If '0', set the LED at position (x, y) to off_color
-        canvas->SetPixel(x, y, off_color.red(), off_color.green(), off_color.blue());
+        canvas->SetPixel(x, y, 0,0,0);
       }
     }
   }
