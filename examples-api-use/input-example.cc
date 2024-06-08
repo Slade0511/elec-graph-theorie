@@ -326,12 +326,12 @@ int main(int argc, char *argv[]) {
         {0, 1, 1, 0, 0}
     };
 
-    /*std::vector<std::vector<int>> listName = {
+    std::vector<std::vector<int>> listName = {
         {1,2,3},
         {4, 5},
-    };*/
+    };
 
-    std::vector<std::vector<int>> listName = convertToListOfVectors(process_matrix(convertTo2DArray(matrix)), 5);
+    /*std::vector<std::vector<int>> listName = convertToListOfVectors(process_matrix(convertTo2DArray(matrix)), 5);
 
      for (size_t i = 0; i < listName.size(); ++i) {
             std::cout << "List " << i << ": ";
@@ -347,21 +347,21 @@ int main(int argc, char *argv[]) {
              for (size_t j = 0; j < listPoint[i].size(); ++j) {
                  std::cout << "Point[" << i << "][" << j << "]: (" << listPoint[i][j].x << ", " << listPoint[i][j].y << ")" << std::endl;
              }
-         }
+         }*/
     // Liste des points avec les noms correspondants
-    /*std::vector<std::vector<Point>> ListPoint = {
+    std::vector<std::vector<Point>> listPoint = {
         {{5, 27}, {15, 27}, {25, 27}},
         { {8, 17}, {24, 17} },
-    };*/
+    };
 
     // Trouver les points connectés
     std::vector<std::vector<Point>> filledList = fill_list(matrix, listName, listPoint);
 
-    for (size_t i = 0; i < filledList.size(); ++i) {
+    /*for (size_t i = 0; i < filledList.size(); ++i) {
                  for (size_t j = 0; j < filledList[i].size(); ++j) {
                      std::cout << "Point[" << i << "][" << j << "]: (" << filledList[i][j].x << ", " << filledList[i][j].y << ")" << std::endl;
                  }
-             }
+             }*/
 
 
     // Définition de la liste de points
