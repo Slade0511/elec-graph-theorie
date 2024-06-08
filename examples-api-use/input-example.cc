@@ -8,6 +8,9 @@
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Canvas;
 
+using namespace std;
+
+
 #define TAILLE 5
 
 struct Point {
@@ -117,7 +120,8 @@ void free_list(List *list) {
     }
 }
 
-vector<vector<int>> process_matrix(int matrix[TAILLE][TAILLE]) {
+
+vector<vector<int>> process_matrix(const vector<vector<int>>& matrix) {
     int index = 1;
     int taille = 1;
     vector<vector<int>> list(TAILLE);
@@ -142,8 +146,13 @@ vector<vector<int>> process_matrix(int matrix[TAILLE][TAILLE]) {
             }
         }
 
-        list[index] = new_list;
-        index++;
+        if (!new_list.empty()) {
+            list[index] = new_list;
+            index++;
+        } else {
+            // Si new_list est vide, sortir de la boucle pour éviter une boucle infinie
+            break;
+        }
     }
 
     // Supprimer les listes vides du vecteur
