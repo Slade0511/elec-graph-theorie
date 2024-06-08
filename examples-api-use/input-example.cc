@@ -117,39 +117,26 @@ void free_list(List *list) {
     }
 }
 
-// Fonction qui implémente l'algorithme
-List** process_matrix(int matrix[TAILLE][TAILLE]) {
+vector<vector<int>> process_matrix(int matrix[TAILLE][TAILLE]) {
     int index = 1;
     int taille = 1;
-    List **list = (List**)malloc(TAILLE * sizeof(List*));
-    if (!list) {
-        fprintf(stderr, "Erreur d'allocation de mémoire pour la liste de listes\n");
-        exit(EXIT_FAILURE);
-    }
-    list[0] = create_list(10);
-    add_to_list(list[0], 1);
+    vector<vector<int>> list(TAILLE);
+    list[0].push_back(1);
 
-    List *Element = create_list(TAILLE); // Liste pour garder les éléments déjà ajoutés
-    if (!Element) {
-        fprintf(stderr, "Erreur d'allocation de mémoire pour la liste Element\n");
-        exit(EXIT_FAILURE);
-    }
-
-    // Initialiser la liste Element avec les éléments de la première liste
-    for (int i = 0; i < list[0]->size; i++) {
-        add_to_list(Element, list[0]->data[i]);
-    }
+    vector<int> Element; // Liste pour garder les éléments déjà ajoutés
+    Element.push_back(1);
 
     while (taille < TAILLE) {
-        List *current_list = list[index - 1];
-        List *new_list = create_list(10);
+        vector<int>& current_list = list[index - 1];
+        vector<int> new_list;
 
-        for (int nb = 0; nb < current_list->size; nb++) {
-            int element = current_list->data[nb];
+        for (int element : current_list) {
             for (int j = 0; j < TAILLE; j++) {
-                if (matrix[element - 1][j] == 1 && !contains(Element, j + 1) && !contains(new_list, j + 1)) {
-                    add_to_list(new_list, j + 1);
-                    add_to_list(Element, j + 1); // Ajouter l'élément à la liste Element
+                if (matrix[element - 1][j] == 1 &&
+                    find(Element.begin(), Element.end(), j + 1) == Element.end() &&
+                    find(new_list.begin(), new_list.end(), j + 1) == new_list.end()) {
+                    new_list.push_back(j + 1);
+                    Element.push_back(j + 1); // Ajouter l'élément à la liste Element
                     taille++;
                 }
             }
@@ -159,7 +146,8 @@ List** process_matrix(int matrix[TAILLE][TAILLE]) {
         index++;
     }
 
-    free_list(Element); // Libérer la mémoire de la liste Element
+    // Supprimer les listes vides du vecteur
+    list.erase(remove_if(list.begin(), list.end(), [](const vector<int>& v) { return v.empty(); }), list.end());
 
     return list;
 }
@@ -242,10 +230,12 @@ int main(int argc, char *argv[]) {
         {0, 1, 1, 0, 0}
     };
 
-    std::vector<std::vector<int>> listName = {
+    /*std::vector<std::vector<int>> listName = {
         {1,2,3},
         {4, 5},
-    };
+    };*/
+
+    std::vector<std::vector<int>> listName = process_matrix(matrix);
 
     // Liste des points avec les noms correspondants
     std::vector<std::vector<Point>> ListPoint = {
