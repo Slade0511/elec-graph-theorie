@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <vector>
+#include <algorithm>
 
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Canvas;
@@ -137,8 +138,8 @@ vector<vector<int>> process_matrix(const vector<vector<int>>& matrix) {
         for (int element : current_list) {
             for (int j = 0; j < TAILLE; j++) {
                 if (matrix[element - 1][j] == 1 &&
-                    find(Element.begin(), Element.end(), j + 1) == Element.end() &&
-                    find(new_list.begin(), new_list.end(), j + 1) == new_list.end()) {
+                    std::find(Element.begin(), Element.end(), j + 1) == Element.end() &&
+                    std::find(new_list.begin(), new_list.end(), j + 1) == new_list.end()) {
                     new_list.push_back(j + 1);
                     Element.push_back(j + 1); // Ajouter l'élément à la liste Element
                     taille++;
@@ -156,7 +157,7 @@ vector<vector<int>> process_matrix(const vector<vector<int>>& matrix) {
     }
 
     // Supprimer les listes vides du vecteur
-    list.erase(remove_if(list.begin(), list.end(), [](const vector<int>& v) { return v.empty(); }), list.end());
+    list.erase(std::remove_if(list.begin(), list.end(), [](const vector<int>& v) { return v.empty(); }), list.end());
 
     return list;
 }
