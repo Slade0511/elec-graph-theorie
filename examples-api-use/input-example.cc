@@ -302,7 +302,7 @@ void DrawLine(Canvas *canvas, const Point& p1, const Point& p2, uint8_t r, uint8
 }
 
 int main(int argc, char *argv[]) {
-    /*RGBMatrix::Options defaults;
+    RGBMatrix::Options defaults;
     defaults.hardware_mapping = "regular";  // or e.g. "adafruit-hat"
     defaults.rows = 32;
     defaults.chain_length = 1;
@@ -316,7 +316,7 @@ int main(int argc, char *argv[]) {
     // receive a CTRL-C for instance. The DrawOnCanvas() routine is looking
     // for that.
     signal(SIGTERM, InterruptHandler);
-    signal(SIGINT, InterruptHandler);*/
+    signal(SIGINT, InterruptHandler);
 
     std::vector<std::vector<int>> matrix = {
         {0, 1, 0, 1, 0},
