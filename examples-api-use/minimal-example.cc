@@ -23,15 +23,15 @@ static void DrawOnCanvas(Canvas *canvas, const std::vector<std::vector<int>>& ma
   rgb_matrix::Color off_color(0, 0, 0);       // Black color for '0'
 
   // Draw the LED matrix based on the values in the matrix
-  for (int x = 0; x < canvas->width(); ++x) {
-    for (int y = 0; y < canvas->height(); ++y) {
+  for (int y = 0; y < canvas->height(); ++y) {
+    for (int x = 0; x < canvas->width(); ++x) {
       // Check if the corresponding value in the matrix is '1' or '0'
       if (matrix[y][x] == 1) {
         // If '1', set the LED at position (x, y) to blue_color
         canvas->SetPixel(x, y, 0, 0, 255);
       } else {
         // If '0', set the LED at position (x, y) to off_color
-        canvas->SetPixel(x, y, 0,0,0);
+        canvas->SetPixel(x, y, 0, 0, 0);
       }
     }
   }
@@ -39,6 +39,7 @@ static void DrawOnCanvas(Canvas *canvas, const std::vector<std::vector<int>>& ma
   // Wait for a short period to display the matrix
   usleep(1 * 1000000);
 }
+
 
 int main(int argc, char *argv[]) {
   RGBMatrix::Options defaults;
